@@ -1,49 +1,95 @@
-# GCER Blogs🧾
+# CampusChronicle
 
-Welcome to GECR Blogs - a platform designed for college seniors to share their experiences, guide juniors, and engage in meaningful discussions through blogs. Whether you're looking to document your journey, offer advice, or seek insights from others, GECR Blogs provides the perfect avenue for connecting with your peers.
+A full-stack blogging platform where writers publish rich, media-friendly posts and readers engage through likes, nested comments and real-time notifications. Originally built for students at Government Engineering College, Rajkot, so seniors could share their experience with juniors.
 
-check the website here:- https://gecr-blogs.netlify.app
+**Live demo:** https://gecr-blogs.netlify.app · **Backend:** [CampusChronicle-Server](https://github.com/Ritu84/CampusChronicle-Server)
 
-# Features 🎈
-1. Modern Blog Editor: Utilize Editor JS for a seamless writing experience.<br>
-2. Google Authentication: Easily sign in using your Google account.<br>
-3. Dynamic Blog Pages: Each blog has its unique URL for easy sharing and navigation.<br>
-4. Search Page: Find blogs and users quickly with our intuitive search feature.<br>
-5. Dedicated User Profiles: Showcase your social links and written blogs on your personalized profile.<br>
-6. Dashboard: Manage your blogs, whether they are published or drafts, from one convenient location.<br>
-7. Blog Post Analytics: Gain insights into your blog's performance, with options to edit or delete as needed.<br>
-8. Engagement Features: Interact with blogs through likes and comments.<br>
-9. Nested Comment System: Reply to comments for deeper discussions.<br>
-10 Notification System: Stay updated with real-time notifications for interactions on your posts.<br>
-11 Recent Notification Highlight: Easily distinguish recent notifications from older ones.<br>
-12 Edit Profile: Customize your profile by updating social links, bio, and username.<br>
-13 Password Change: Securely update your login password directly from the settings.<br>
-14 Mobile Responsive Design: Enjoy a seamless browsing experience across devices with modern design and fade-in animations.
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase_Auth-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![AWS S3](https://img.shields.io/badge/AWS_S3-569A31?style=flat-square&logo=amazons3&logoColor=white)
 
-# Getting Started 👇:-
-To start sharing your experiences and engaging with fellow seniors and juniors:
+## Features
 
-Sign in using your Google account.
-Create your profile and update it with your social links.
-Start writing your blog posts or explore existing ones.
-Engage with other users through likes, comments, and replies.
-Stay updated with notifications for interactions on your posts.
-Explore the search feature to discover new blogs and users.
+**Writing**
+- Block-based rich text editor (Editor.js) with headings, lists, quotes, code, links, embeds and inline images
+- Image uploads straight to **AWS S3** through pre-signed upload URLs
+- Save drafts, publish with tags and a short description, edit or delete later
 
-# Contributing ⭕✨
-We welcome contributions from the community to enhance the platform further. Whether it's suggesting new features, reporting bugs, or contributing code, your input is valuable in making GECR Blogs a better place for everyone.
+**Reading & discovery**
+- Home feed of latest posts with pagination, plus a **trending** section and tag filters
+- Search across blogs and users
+- Unique, shareable URL for every post
 
-# Feedback 
-If you have any feedback, suggestions, or encounter any issues while using GECR Blogs, please don't hesitate to reach out. Your feedback helps us improve and tailor the platform to better suit your needs.
+**Engagement**
+- Likes and **nested comments** with replies and deletion
+- **Notifications** for likes, comments and replies, with new ones highlighted
 
-Contact
-For inquiries or assistance, feel free to contact us at rsharma114962@gmail.com
+**Accounts**
+- Email/password sign-up (bcrypt-hashed) and **Google sign-in** via Firebase
+- JWT-protected API routes
+- Public profiles with bio, social links and written posts; edit profile, profile photo and password
 
-Happy blogging!
+**Dashboard**
+- Manage published posts and drafts in one place, with per-post stats (likes, comments, reads)
+- Responsive design, light/dark theme and page-transition animations (Framer Motion)
 
-GECR Blogs Team
+## Architecture
 
+```
+React (Vite) client  ──►  Express REST API  ──►  MongoDB (Mongoose)
+       │                        │
+       └── Firebase (Google sign-in)   └── AWS S3 (image storage via signed URLs)
+```
 
+Main data models: **User**, **Blog**, **Comment** (with parent/child replies) and **Notification**.
 
+## Running Locally
 
+**Backend** (in [CampusChronicle-Server](https://github.com/Ritu84/CampusChronicle-Server) or the `server/` folder):
+```bash
+cd server
+npm install
+npm start
+```
+Create `server/.env`:
+```
+DB_LOCATION=your_mongodb_connection_string
+SECRET_ACCESS_KEY=your_jwt_secret
+AWS_ACCESS_KEY=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+```
+You also need a Firebase service account file for Google sign-in.
 
+**Frontend**:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Create `frontend/.env`:
+```
+VITE_SERVER_DOMAIN=http://localhost:3000
+```
+
+## Project Structure
+
+```
+CampusChronicle/
+├── frontend/
+│   └── src/
+│       ├── pages/        # Home, blog, editor, search, profile, dashboard, notifications, settings
+│       ├── components/   # Editor, blog cards, comments, navigation, notification cards
+│       └── common/       # Session, Firebase, S3 upload, date and pagination helpers
+└── server/
+    ├── Schema/           # User, Blog, Comment, Notification models
+    └── server.js         # REST API
+```
+
+## Author
+
+**Ritu Sharma** · [GitHub](https://github.com/Ritu84) · [LinkedIn](https://www.linkedin.com/in/ritu-sharma-a2580222a/)
